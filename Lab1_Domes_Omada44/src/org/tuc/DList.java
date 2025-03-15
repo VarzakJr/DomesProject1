@@ -4,29 +4,14 @@ public class DList implements List {
 
     private Node head;
     private Node tail;
-    private Node current;
-
-    private class Node {
-        Node next;
-        Node prev;
-        Element element;
+    private Node current = null;
 
 
-    public Node(Element element) {
-        this.element = element;
-        this.next = null;
-        this.prev = null;
-    }
-}
-    public DList() {
-        head = null;
-        tail = null;
-    }
 
     @Override
     public boolean insert(int key,String data) {
         /** Creates a new element with key, data */
-        Element newElement = new DlistElement(key,data);
+        Element newElement = new DListElement(key, data);
 
         /** Creates a new Node with newElement */
         Node newNode = new DListNode(newElement);
@@ -38,8 +23,8 @@ public class DList implements List {
         }
         else {
             /** Inserts Node to the end of the List*/
-            tail.next = newNode;        /** Links tail to newNode*/
-            newNode.prev = tail;        /** Links newNode to tail, WE MUST DO THIS IN DLIST, OTHERWISE prev pointer = null!*/
+            tail.setNext(newNode);        /** Links tail to newNode*/
+            newNode.setPrev(tail);        /** Links newNode to tail, WE MUST DO THIS IN DLIST, OTHERWISE prev pointer = null!*/
             tail = newNode;             /** Update tail with newNode*/
         }
 
@@ -49,28 +34,32 @@ public class DList implements List {
         /**DEEPSEEK CODE, REVIEW AND CONTINUE*/
          @Override
          public boolean delete(int key) {
+
+         if(head == null) {
+             return false;  /** If List is empty return false*/
+         }
          Node current = head;
 
          while (current != null) {
-         if (current.element.getKey() == key) {
+         if (current.getElement().getKey() == key) {
          // Adjust the previous node's next pointer
-         if (current.prev != null) {
-         current.prev.next = current.next;
+         if (current.getPrev() != null) {
+         current.getPrev().setNext(current.getNext());
          } else {
-         head = current.next;
+         head = current.getNext();
          }
 
          // Adjust the next node's previous pointer
-         if (current.next != null) {
-         current.next.prev = current.prev;
+         if (current.getNext() != null) {
+         current.getNext().setPrev(current.getPrev());
          } else {
-         tail = current.prev;
+         tail = current.getPrev();
          }
 
          // Return true to indicate successful deletion
          return true;
          }
-         current = current.next;
+         current = current.getNext();
          }
 
          // Return false if the key was not found
@@ -82,11 +71,11 @@ public class DList implements List {
          Node current = head;
 
          while (current != null) {
-         if (current.element.getKey() == key) {
+         if (current.getElement().getKey() == key) {
          // Return the Element if the key matches
-         return current.element;
+         return current.getElement();
          }
-         current = current.next;
+         current = current.getNext();
          }
 
          // Return null if the key was not found

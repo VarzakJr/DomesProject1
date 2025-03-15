@@ -18,5 +18,5 @@ public interface Element
      * @return the data of this element
      */
 
-    public string getData();
+    public String getData();
 }
